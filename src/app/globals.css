@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-sans:    'DM Sans', system-ui, sans-serif;
+}
+
+@layer base {
+  html { font-family: var(--font-sans); scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+  body { background-color: #FAFBFF; color: #0B1F3A; }
+  h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 600; line-height: 1.15; }
+  ::selection { background: rgba(30, 95, 190, 0.2); }
+  ::-webkit-scrollbar       { width: 6px; }
+  ::-webkit-scrollbar-thumb { background: #3B9EE0; border-radius: 3px; }
+}
+
+@layer components {
+  .btn-primary   { @apply inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#1E5FBE] text-white font-medium rounded-lg hover:bg-[#1a52a8] active:scale-[0.98] transition-all duration-200 shadow-md; }
+  .btn-secondary { @apply inline-flex items-center justify-center gap-2 px-6 py-3 bg-transparent border-2 border-[#1E5FBE] text-[#1E5FBE] font-medium rounded-lg hover:bg-[#1E5FBE] hover:text-white active:scale-[0.98] transition-all duration-200; }
+  .btn-gold      { @apply inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#C9A84C] text-white font-medium rounded-lg hover:bg-[#b08d38] active:scale-[0.98] transition-all duration-200; }
+  .card          { @apply bg-white rounded-2xl shadow-card border border-blue-50 transition-all duration-300 hover:shadow-card-lg hover:-translate-y-1; }
+  .section-label { @apply inline-block text-sm font-semibold tracking-widest uppercase text-[#3B9EE0] mb-3; }
+  .section-title { @apply font-display text-3xl md:text-4xl lg:text-5xl font-semibold text-[#0B1F3A]; }
+  .section-subtitle { @apply text-lg text-[#64748B] leading-relaxed max-w-2xl; }
+  .form-input    { @apply w-full px-4 py-3 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#3B9EE0] focus:border-transparent bg-white placeholder:text-slate-400 transition-all duration-200; }
+  .form-label    { @apply block text-sm font-medium text-slate-700 mb-1.5; }
+  .badge         { @apply inline-flex items-center gap-1 text-xs font-semibold px-3 py-1 rounded-full; }
+  .skeleton      { @apply animate-pulse bg-slate-100 rounded-lg; }
+}
