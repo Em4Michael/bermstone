@@ -25,9 +25,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    if (!loading && (!user || !isAdmin)) router.replace('/login'); // ← fixed
+    if (!loading && (!user || !isAdmin)) router.replace('/login');
   }, [user, loading, isAdmin, router]);
 
+  // Close mobile sidebar on route change
   useEffect(() => { setOpen(false); }, [pathname]);
 
   if (loading || !user || !isAdmin) return (
@@ -38,7 +39,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   const handleLogout = () => {
     logout();
-    router.replace('/login'); // ← fixed
+    router.replace('/');
   };
 
   const NavLinks = ({ onNav }: { onNav?: () => void }) => (
@@ -66,6 +67,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
       {/* ── Desktop Sidebar ─────────────────────────────── */}
       <aside className="hidden lg:flex flex-col w-64 bg-[#0B1F3A] text-white shrink-0 fixed inset-y-0 left-0 z-30">
+        {/* Logo */}
         <div className="p-6 border-b border-white/10">
           <Link href="/admin" className="flex items-center gap-2">
             <span className="w-8 h-8 bg-[#1E5FBE] rounded-lg flex items-center justify-center font-bold text-sm">B</span>
@@ -76,10 +78,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </Link>
         </div>
 
+        {/* Nav */}
         <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
           <NavLinks />
         </nav>
 
+        {/* User + Logout */}
         <div className="p-4 border-t border-white/10">
           <div className="flex items-center gap-3 px-3 py-2 mb-1">
             <div className="w-8 h-8 rounded-full bg-[#1E5FBE] flex items-center justify-center text-xs font-bold shrink-0">
@@ -118,6 +122,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <NavLinks onNav={() => setOpen(false)} />
             </nav>
 
+            {/* User info + logout — visible on mobile */}
             <div className="p-4 border-t border-white/10">
               <div className="flex items-center gap-3 px-3 py-2 mb-2">
                 <div className="w-9 h-9 rounded-full bg-[#1E5FBE] flex items-center justify-center text-sm font-bold shrink-0">
@@ -142,6 +147,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* ── Main Content ─────────────────────────────────── */}
       <div className="flex-1 flex flex-col min-w-0 lg:ml-64">
 
+        {/* Top bar — mobile + tablet */}
         <header className="lg:hidden bg-white border-b border-slate-100 px-4 py-3 flex items-center justify-between sticky top-0 z-20 shadow-sm">
           <div className="flex items-center gap-3">
             <button
@@ -153,6 +159,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <span className="font-display font-semibold text-[#0B1F3A]">Admin Panel</span>
           </div>
 
+          {/* Logout always visible in top bar on mobile */}
           <button
             onClick={handleLogout}
             className="flex items-center gap-1.5 px-3 py-2 text-sm text-red-500 hover:bg-red-50 rounded-lg transition-colors font-medium"
