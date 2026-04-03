@@ -4,18 +4,19 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import {
   LayoutDashboard, Building2, TrendingUp, CalendarCheck,
-  MessageSquare, Star, LogOut, Menu, X, ChevronRight,
+  MessageSquare, Star, LogOut, Menu, X, ChevronRight, CreditCard,
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { cn } from '@/lib/utils';
 
 const NAV = [
-  { href: '/admin',             label: 'Overview',    Icon: LayoutDashboard },
-  { href: '/admin/properties',  label: 'Properties',  Icon: Building2 },
-  { href: '/admin/investments', label: 'Investments', Icon: TrendingUp },
-  { href: '/admin/bookings',    label: 'Bookings',    Icon: CalendarCheck },
-  { href: '/admin/inquiries',   label: 'Inquiries',   Icon: MessageSquare },
-  { href: '/admin/reviews',     label: 'Reviews',     Icon: Star },
+  { href: '/admin',                       label: 'Overview',          Icon: LayoutDashboard },
+  { href: '/admin/properties',            label: 'Properties',        Icon: Building2 },
+  { href: '/admin/investments',           label: 'Investments',       Icon: TrendingUp },
+  { href: '/admin/bookings',              label: 'Bookings',          Icon: CalendarCheck },
+  { href: '/admin/investment-payments',   label: 'Invest. Payments',  Icon: CreditCard },
+  { href: '/admin/inquiries',             label: 'Inquiries',         Icon: MessageSquare },
+  { href: '/admin/reviews',               label: 'Reviews',           Icon: Star },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {

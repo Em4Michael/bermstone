@@ -53,6 +53,8 @@ export default function EditPropertyPage({ params }: { params: { id: string } })
 
   // Load existing property data
   useEffect(() => {
+    // Guard: 'new' is a static route, redirect there if somehow we land here
+    if (params.id === 'new') { router.replace('/admin/properties/new'); return; }
     api.get(`/properties/${params.id}`)
       .then((res) => {
         const p = res.data.data;

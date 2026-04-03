@@ -5,13 +5,14 @@ import type {
   PaginatedResponse, ApiResponse,
 } from '@/types';
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://bermstone-server.onrender.com/api';
-// 'http://localhost:5000/api';
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL ||  'http://localhost:5000/api';
+
+//'https://bermstone-server.onrender.com/api';
 
 const api: AxiosInstance = axios.create({
   baseURL:  BASE_URL,
   headers:  { 'Content-Type': 'application/json' },
-  timeout:  15000,
+  timeout:  30000, // Render free tier can take ~30s on cold start
 });
 
 api.interceptors.request.use((cfg) => {
@@ -24,8 +25,17 @@ api.interceptors.request.use((cfg) => {
 
 api.interceptors.response.use(
   (r) => r,
-  (err: AxiosError<{ message?: string }>) =>
-    Promise.reject(new Error(err.response?.data?.message || err.message || 'Something went wrong'))
+  async (err: AxiosError<{ message?: string }>) => {
+    const config = err.config as (typeof err.config & { _retried?: boolean });
+    // Auto-retry once on network error or timeout (handles Render cold-start)
+    if (!config?._retried && (err.code === 'ECONNABORTED' || err.code === 'ERR_NETWORK' || !err.response)) {
+      config._retried = true;
+      // Wait 3s then retry
+      await new Promise(r => setTimeout(r, 3000));
+      return api(config);
+    }
+    return Promise.reject(new Error(err.response?.data?.message || err.message || 'Something went wrong'));
+  }
 );
 
 export const propertiesApi = {
