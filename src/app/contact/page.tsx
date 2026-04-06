@@ -20,9 +20,9 @@ export default function ContactPage() {
   };
 
   const CONTACTS = [
-    { icon: <Phone size={18} className="text-[#1E5FBE]" />, label: 'Phone',   value: '+234 800 000 0000',           href: 'tel:+2348000000000' },
+    { icon: <Phone size={18} className="text-[#1E5FBE]" />, label: 'Phone',   value: '+212 600 000 000',           href: 'tel:+212600000000' },
     { icon: <Mail  size={18} className="text-[#1E5FBE]" />, label: 'Email',   value: 'hello@bermstone.com',         href: 'mailto:hello@bermstone.com' },
-    { icon: <MapPin size={18} className="text-[#1E5FBE]" />,label: 'Address', value: 'Port Harcourt, Rivers State', href: null },
+    { icon: <MapPin size={18} className="text-[#1E5FBE]" />,label: 'Address', value: 'Marrakech, Marrakech-Safi', href: null },
     { icon: <Clock size={18} className="text-[#1E5FBE]" />, label: 'Hours',   value: 'Mon–Fri: 8am–6pm\nSat: 9am–3pm', href: null },
   ];
 

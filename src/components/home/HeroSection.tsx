@@ -31,7 +31,7 @@ export default function HeroSection() {
   const [wordIdx, setWordIdx] = useState(0);
   const [displayed, setDisplayed] = useState('');
   const [typing,    setTyping]    = useState(true);
-  const heroRef = useRef<HTMLElement>(null);
+  const heroRef = useRef<HTMLEssaouirant>(null);
 
   // Typewriter
   useEffect(() => {
@@ -60,7 +60,7 @@ export default function HeroSection() {
     if (!el) return;
     const onScroll = () => {
       const scrolled = window.scrollY;
-      const orbs = el.querySelectorAll<HTMLElement>('.parallax-orb');
+      const orbs = el.querySelectorAll<HTMLEssaouirant>('.parallax-orb');
       orbs.forEach((orb, i) => {
         const speed = 0.15 + i * 0.08;
         orb.style.transform = `translateY(${scrolled * speed}px)`;
@@ -115,7 +115,7 @@ export default function HeroSection() {
         {/* Badge */}
         <div className="animate-blur-in delay-0 inline-flex items-center gap-2 glass rounded-full px-5 py-2 mb-8">
           <span className="w-2 h-2 bg-[#C9A84C] rounded-full animate-pulse-glow" />
-          <span className="text-white/90 text-sm font-medium tracking-wide">Premium Real Estate · Nigeria</span>
+          <span className="text-white/90 text-sm font-medium tracking-wide">Premium Real Estate · Morocco</span>
         </div>
 
         {/* Headline */}
@@ -132,7 +132,7 @@ export default function HeroSection() {
 
         {/* Subheading */}
         <p className="animate-fade-up delay-200 text-white/65 text-lg sm:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
-          Discover curated keyneet apartments and high-yield real estate projects across Nigeria.
+          Discover curated keyneet apartments and high-yield real estate projects across Morocco.
         </p>
 
         {/* Mode toggle */}
@@ -158,7 +158,7 @@ export default function HeroSection() {
               <div className="flex-1 flex items-center gap-2 px-3 py-2.5 border border-slate-100 rounded-xl">
                 <MapPin size={17} className="text-[#3B9EE0] shrink-0" />
                 <input value={city} onChange={(e) => setCity(e.target.value)}
-                  placeholder="Which city? (Port Harcourt, Lagos…)"
+                  placeholder="Which city? (Marrakech, Casablanca…)"
                   className="flex-1 text-sm text-[#0B1F3A] placeholder:text-slate-400 outline-none bg-transparent" />
               </div>
               <div className="flex items-center gap-2 px-3 py-2.5 border border-slate-100 rounded-xl md:w-36">
@@ -183,7 +183,7 @@ export default function HeroSection() {
         {/* City pills */}
         {mode === 'keyneet' && (
           <div className="animate-fade-up delay-500 flex flex-wrap justify-center gap-2">
-            {['Port Harcourt', 'Lagos', 'Abuja', 'Lekki', 'Victoria Island'].map((c) => (
+            {['Marrakech', 'Casablanca', 'Rabat', 'Fès', 'Agadir'].map((c) => (
               <button key={c} onClick={() => setCity(c)}
                 className={`px-4 py-1.5 rounded-full text-xs font-medium border transition-all duration-200 ${
                   city === c
@@ -198,7 +198,7 @@ export default function HeroSection() {
 
         {mode === 'invest' && (
           <div className="animate-fade-up delay-500 flex flex-wrap justify-center gap-6 text-white/70 text-sm">
-            {[['35%', 'Max ROI'], ['₦2B+', 'Managed'], ['5+', 'Years']].map(([val, lbl]) => (
+            {[['35%', 'Max ROI'], ['MAD 2B+', 'Managed'], ['5+', 'Years']].map(([val, lbl]) => (
               <div key={lbl} className="text-center">
                 <div className="font-display text-2xl font-semibold text-[#C9A84C]">{val}</div>
                 <div className="text-white/50 text-xs mt-0.5">{lbl}</div>

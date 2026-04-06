@@ -119,15 +119,15 @@ export default function Footer() {
                 <div className="w-8 h-8 rounded-lg bg-white/8 flex items-center justify-center shrink-0 mt-0.5">
                   <MapPin size={14} className="text-[#3B9EE0]" />
                 </div>
-                <span className="text-blue-200/70 text-sm leading-relaxed">Port Harcourt, Rivers State, Nigeria</span>
+                <span className="text-blue-200/70 text-sm leading-relaxed">Marrakech, Marrakech-Safi, Morocco</span>
               </li>
               <li>
-                <a href="tel:+2348000000000"
+                <a href="tel:+212600000000"
                   className="flex items-center gap-3 group">
                   <div className="w-8 h-8 rounded-lg bg-white/8 flex items-center justify-center shrink-0 group-hover:bg-[#1E5FBE] transition-colors">
                     <Phone size={14} className="text-[#3B9EE0]" />
                   </div>
-                  <span className="text-blue-200/70 group-hover:text-white text-sm transition-colors">+234 800 000 0000</span>
+                  <span className="text-blue-200/70 group-hover:text-white text-sm transition-colors">+212 600 000 000</span>
                 </a>
               </li>
               <li>

@@ -16,7 +16,7 @@ const SORT_OPTIONS = [
   { value: 'rating_desc', label: 'Top Rated' },
   { value: 'newest',      label: 'Newest First' },
 ];
-const CITIES = ['Port Harcourt','Lagos','Abuja','Lekki','Victoria Island','Eleme'];
+const CITIES = ['Marrakech','Casablanca','Rabat','Fès','Agadir','Essaouira'];
 
 export default function PropertiesClient() {
   const searchParams = useSearchParams();
@@ -109,7 +109,7 @@ export default function PropertiesClient() {
               <span className="text-gradient-gold italic">Keyneet Stay</span>
             </h1>
             <p className="text-white/60 text-lg max-w-xl">
-              {total > 0 ? `${total} verified apartments across Nigeria` : 'Curated luxury apartments for every occasion'}
+              {total > 0 ? `${total} verified apartments across Morocco` : 'Curated luxury apartments for every occasion'}
             </p>
           </div>
         </div>
@@ -169,11 +169,11 @@ export default function PropertiesClient() {
           {showFilters && (
             <div className="mt-3 pt-3 border-t border-slate-100 grid grid-cols-2 md:grid-cols-4 gap-3 animate-fade-down">
               <div>
-                <label className="form-label">Min Price (₦)</label>
+                <label className="form-label">Min Price (MAD )</label>
                 <input type="number" value={filters.minPrice} onChange={e => set('minPrice', e.target.value)} className="form-input text-sm" placeholder="30,000" />
               </div>
               <div>
-                <label className="form-label">Max Price (₦)</label>
+                <label className="form-label">Max Price (MAD )</label>
                 <input type="number" value={filters.maxPrice} onChange={e => set('maxPrice', e.target.value)} className="form-input text-sm" placeholder="250,000" />
               </div>
               <div>

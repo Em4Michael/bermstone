@@ -4,10 +4,10 @@ import Link from 'next/link';
 export const metadata: Metadata = { title: 'About Us' };
 
 const MILESTONES = [
-  { year: '2019', title: 'Bermstone Founded',    desc: 'Started with 3 premium apartments in Port Harcourt GRA.' },
+  { year: '2019', title: 'Bermstone Founded',    desc: 'Started with 3 premium apartments in Marrakech GRA.' },
   { year: '2020', title: 'Investment Division',  desc: 'Launched our investment arm, completing our first duplex project.' },
-  { year: '2022', title: '₦1B+ Managed Assets', desc: 'Crossed ₦1 billion in managed real estate assets.' },
-  { year: '2024', title: '50+ Properties',       desc: 'Expanded to 50+ shortlet units with 94% average occupancy.' },
+  { year: '2022', title: 'MAD 1B+ Managed Assets', desc: 'Crossed MAD 1 billion in managed real estate assets.' },
+  { year: '2024', title: '50+ Properties',       desc: 'Expanded to 50+ keyneet units with 94% average occupancy.' },
   { year: '2026', title: 'Harbour View Towers',  desc: 'Our most ambitious development to date — underway.' },
 ];
 
@@ -19,7 +19,7 @@ export default function AboutPage() {
         <div className="max-w-3xl mx-auto text-center relative z-10">
           <span className="section-label text-[#3B9EE0]">Our Story</span>
           <h1 className="font-display text-4xl md:text-5xl font-semibold text-white mt-2 mb-5">Building Trust, One Property at a Time</h1>
-          <p className="text-blue-200 leading-relaxed">Bermstone is a Nigerian real estate company dedicated to premium shortlet accommodation and high-yield property development investments.</p>
+          <p className="text-blue-200 leading-relaxed">Bermstone is a Moroccon real estate company dedicated to premium keyneet accommodation and high-yield property development investments.</p>
         </div>
       </div>
 
@@ -31,7 +31,7 @@ export default function AboutPage() {
           </div>
           <div className="bg-[#0B1F3A] rounded-2xl p-8">
             <h3 className="font-display text-2xl font-semibold text-white mb-3">Our Vision</h3>
-            <p className="text-blue-200 leading-relaxed">To be the most trusted name in Nigerian real estate, expanding to create landmark developments that set a new standard.</p>
+            <p className="text-blue-200 leading-relaxed">To be the most trusted name in Moroccon real estate, expanding to create landmark developments that set a new standard.</p>
           </div>
         </div>
       </div>
@@ -61,7 +61,7 @@ export default function AboutPage() {
         <h3 className="font-display text-3xl font-semibold text-[#0B1F3A] mb-4">Ready to work with us?</h3>
         <p className="text-slate-500 text-sm mb-7 max-w-md mx-auto">Whether booking a stay, investing, or listing your property.</p>
         <div className="flex flex-wrap justify-center gap-4">
-          <Link href="/properties"  className="btn-primary">Browse Shortlets →</Link>
+          <Link href="/properties"  className="btn-primary">Browse Keyneets →</Link>
           <Link href="/investments" className="btn-gold">View Investments →</Link>
           <Link href="/contact"     className="btn-secondary">Contact Us</Link>
         </div>

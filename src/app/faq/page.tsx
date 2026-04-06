@@ -4,14 +4,14 @@ import { ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const FAQS = [
-  { cat: 'Shortlets & Booking', items: [
-    { q: 'How do I book a shortlet apartment?', a: 'Browse our properties, select your apartment, choose dates and guests, then fill in your details. Our team confirms within a few hours.' },
+  { cat: 'Keyneets & Booking', items: [
+    { q: 'How do I book a keyneet apartment?', a: 'Browse our properties, select your apartment, choose dates and guests, then fill in your details. Our team confirms within a few hours.' },
     { q: 'What is included in the nightly rate?', a: 'All properties include WiFi, electricity, and water. Specific amenities are listed on each property page.' },
     { q: 'What is your cancellation policy?', a: 'Cancellations 48+ hours before check-in receive a full refund. Within 48 hours, a one-night fee is charged.' },
   ]},
   { cat: 'Investments', items: [
     { q: 'How do I invest in a Bermstone project?', a: 'Browse the Investments page, select a project, review the business and building plans, then submit an expression of interest.' },
-    { q: 'What is the minimum investment amount?', a: 'Minimum amounts vary by project, starting from ₦2,000,000. Each listing clearly states the minimum.' },
+    { q: 'What is the minimum investment amount?', a: 'Minimum amounts vary by project, starting from MAD 2,000,000. Each listing clearly states the minimum.' },
     { q: 'Are my investments secure?', a: 'All projects are legally structured with proper documentation. Investors receive formal agreements and regular progress reports.' },
   ]},
   { cat: 'Property Owners', items: [

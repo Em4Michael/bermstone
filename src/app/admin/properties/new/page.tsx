@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { Plus, Trash2, Loader2, ArrowLeft, CheckCircle } from 'lucide-react';
@@ -7,8 +7,8 @@ import Link from 'next/link';
 import api from '@/lib/api';
 
 const AMENITY_LIST = [
-  'WiFi','Pool','Gym','Parking','Air Conditioning','Kitchen','Washer',
-  'TV','Balcony','Sea View','Generator','Security','Elevator','Garden',
+  'WiFi','Pool','Gym','Parking','Air Conditioning','Kitchen',
+  'Washer','TV','Balcony','Sea View','Generator','Security','Elevator','Garden',
 ];
 
 interface FormData {
@@ -17,26 +17,24 @@ interface FormData {
   pricePerNight: number; currency: string;
   maxGuests: number; bedrooms: number; bathrooms: number;
   amenities: string[];
-  rules: { value: string }[];
+  rules:  { value: string }[];
   images: { url: string; caption: string }[];
   bookingLink: string;
   isFeatured: boolean; isActive: boolean;
 }
 
-export default function EditPropertyPage({ params }: { params: { id: string } }) {
+export default function NewPropertyPage() {
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
-  const [saving,  setSaving]  = useState(false);
-  const [done,    setDone]    = useState(false);
-  const [error,   setError]   = useState('');
-  const [notFound, setNotFound] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [done,   setDone]   = useState(false);
+  const [error,  setError]  = useState('');
 
-  const { register, handleSubmit, control, watch, setValue, reset } = useForm<FormData>({
+  const { register, handleSubmit, control, watch, setValue } = useForm<FormData>({
     defaultValues: {
       country: 'Morocco', currency: 'MAD',
       isFeatured: false, isActive: true,
       amenities: [],
-      rules:  [{ value: '' }],
+      rules:  [{ value: 'No smoking' }],
       images: [{ url: '', caption: '' }],
     },
   });
@@ -45,52 +43,18 @@ export default function EditPropertyPage({ params }: { params: { id: string } })
   const { fields: imageFields, append: addImage, remove: removeImage } = useFieldArray({ control, name: 'images' });
 
   const selectedAmenities = watch('amenities') || [];
-
   const toggleAmenity = (a: string) => {
     const cur = watch('amenities') || [];
-    setValue('amenities', cur.includes(a) ? cur.filter((x) => x !== a) : [...cur, a]);
+    setValue('amenities', cur.includes(a) ? cur.filter(x => x !== a) : [...cur, a]);
   };
-
-  // Load existing property data
-  useEffect(() => {
-    // Guard: 'new' is a static route, redirect there if somehow we land here
-    if (params.id === 'new') { router.replace('/admin/properties/new'); return; }
-    api.get(`/properties/${params.id}`)
-      .then((res) => {
-        const p = res.data.data;
-        reset({
-          name:         p.name         || '',
-          summary:      p.summary      || '',
-          description:  p.description  || '',
-          address:      p.location?.address || '',
-          city:         p.location?.city    || '',
-          state:        p.location?.state   || '',
-          country:      p.location?.country || 'Morocco',
-          pricePerNight: p.pricePerNight || 0,
-          currency:     p.currency     || 'MAD',
-          maxGuests:    p.maxGuests    || 1,
-          bedrooms:     p.bedrooms     || 0,
-          bathrooms:    p.bathrooms    || 0,
-          amenities:    p.amenities    || [],
-          rules:        p.rules?.length > 0
-                          ? p.rules.map((r: string) => ({ value: r }))
-                          : [{ value: '' }],
-          images:       p.images?.length > 0
-                          ? p.images.map((img: { url: string; caption?: string }) => ({ url: img.url, caption: img.caption || '' }))
-                          : [{ url: '', caption: '' }],
-          bookingLink:  p.bookingLink  || '',
-          isFeatured:   p.isFeatured   ?? false,
-          isActive:     p.isActive     ?? true,
-        });
-      })
-      .catch(() => setNotFound(true))
-      .finally(() => setLoading(false));
-  }, [params.id, reset]);
 
   const onSubmit = async (data: FormData) => {
     setSaving(true); setError('');
     try {
-      await api.put(`/properties/${params.id}`, {
+      const validImages = data.images.filter(img => img.url.trim());
+
+      // Explicitly build payload — no spread to avoid field conflicts with address/city etc
+      await api.post('/properties', {
         name:        data.name,
         summary:     data.summary,
         description: data.description,
@@ -101,82 +65,66 @@ export default function EditPropertyPage({ params }: { params: { id: string } })
           country: data.country,
         },
         pricePerNight: Number(data.pricePerNight),
-        currency:     data.currency,
-        maxGuests:    Number(data.maxGuests),
-        bedrooms:     Number(data.bedrooms),
-        bathrooms:    Number(data.bathrooms),
-        amenities:    data.amenities,
-        rules:        data.rules.map((r) => r.value).filter(Boolean),
-        images:       data.images.filter((img) => img.url),
-        coverImage:   data.images.find((img) => img.url)?.url || '',
-        bookingLink:  data.bookingLink,
-        isFeatured:   data.isFeatured,
-        isActive:     data.isActive,
+        currency:      data.currency,
+        maxGuests:     Number(data.maxGuests),
+        bedrooms:      Number(data.bedrooms),
+        bathrooms:     Number(data.bathrooms),
+        amenities:     data.amenities || [],
+        rules:         data.rules.map(r => r.value).filter(Boolean),
+        images:        validImages,
+        coverImage:    validImages[0]?.url || '',
+        bookingLink:   data.bookingLink || '',
+        isFeatured:    Boolean(data.isFeatured),
+        isActive:      Boolean(data.isActive),
       });
+
       setDone(true);
       setTimeout(() => router.push('/admin/properties'), 1500);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Failed to update property');
+      setError(err instanceof Error ? err.message : 'Failed to create property');
     } finally {
       setSaving(false);
     }
   };
 
-  if (loading) return (
-    <div className="space-y-4 animate-pulse max-w-3xl">
-      <div className="skeleton h-8 w-1/3" />
-      <div className="skeleton h-64 rounded-xl" />
-      <div className="skeleton h-40 rounded-xl" />
-    </div>
-  );
-
-  if (notFound) return (
-    <div className="text-center py-24">
-      <div className="text-5xl mb-4">🏘️</div>
-      <h2 className="font-display text-xl font-semibold text-[#0B1F3A] mb-2">Property not found</h2>
-      <Link href="/admin/properties" className="btn-primary mt-4 inline-flex">Back to Properties</Link>
-    </div>
-  );
-
   if (done) return (
     <div className="flex items-center justify-center min-h-[60vh]">
       <div className="text-center">
         <CheckCircle size={52} className="text-green-500 mx-auto mb-3" />
-        <h2 className="font-display text-xl font-semibold text-[#0B1F3A]">Property Updated!</h2>
-        <p className="text-slate-500 text-sm mt-1">Redirecting to properties list…</p>
+        <h2 className="font-display text-xl font-semibold text-[#0B1F3A]">Property Created!</h2>
+        <p className="text-slate-500 text-sm mt-1">Redirecting…</p>
       </div>
     </div>
   );
 
   return (
     <div className="max-w-3xl space-y-6">
-      {/* Header */}
       <div className="flex items-center gap-3">
         <Link href="/admin/properties" className="text-slate-400 hover:text-[#1E5FBE] transition-colors">
           <ArrowLeft size={20} />
         </Link>
         <div>
-          <h1 className="font-display text-2xl font-semibold text-[#0B1F3A]">Edit Property</h1>
-          <p className="text-slate-500 text-sm">Update the property details below.</p>
+          <h1 className="font-display text-2xl font-semibold text-[#0B1F3A]">Add New Property</h1>
+          <p className="text-slate-500 text-sm">Fill in the details to list a new keyneet.</p>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
 
-        {/* Basic Info */}
+        {/* Basic */}
         <section className="bg-white rounded-xl p-6 border border-slate-100 shadow-sm space-y-4">
           <h2 className="font-semibold text-[#0B1F3A] border-b border-slate-100 pb-3">Basic Information</h2>
           <div>
             <label className="form-label">Property Name *</label>
-            <input {...register('name', { required: true })} className="form-input" placeholder="e.g. Riad Al Andalus" />
+            <input {...register('name', { required: 'Name is required' })} className="form-input" placeholder="e.g. Riad Al Andalus" />
           </div>
           <div>
-            <label className="form-label">Short Summary * <span className="text-slate-400 font-normal">(max 300 chars)</span></label>
-            <textarea {...register('summary', { required: true, maxLength: 300 })} rows={2} className="form-input resize-none" />
+            <label className="form-label">Short Summary * <span className="text-slate-400 font-normal text-xs">(max 300 chars — shown on listing cards)</span></label>
+            <textarea {...register('summary', { required: 'Summary is required', maxLength: 300 })} rows={2} className="form-input resize-none" />
           </div>
           <div>
             <label className="form-label">Full Description *</label>
-            <textarea {...register('description', { required: true })} rows={6} className="form-input resize-none" />
+            <textarea {...register('description', { required: 'Description is required' })} rows={5} className="form-input resize-none" />
           </div>
         </section>
 
@@ -185,16 +133,16 @@ export default function EditPropertyPage({ params }: { params: { id: string } })
           <h2 className="font-semibold text-[#0B1F3A] border-b border-slate-100 pb-3">Location</h2>
           <div>
             <label className="form-label">Full Address *</label>
-            <input {...register('address', { required: true })} className="form-input" />
+            <input {...register('address', { required: 'Address is required' })} className="form-input" placeholder="e.g. Rue Bab Doukkala, Medina" />
           </div>
           <div className="grid grid-cols-3 gap-4">
             <div>
               <label className="form-label">City *</label>
-              <input {...register('city', { required: true })} className="form-input" />
+              <input {...register('city', { required: true })} className="form-input" placeholder="Marrakech" />
             </div>
             <div>
               <label className="form-label">State *</label>
-              <input {...register('state', { required: true })} className="form-input" />
+              <input {...register('state', { required: true })} className="form-input" placeholder="Marrakech-Safi" />
             </div>
             <div>
               <label className="form-label">Country</label>
@@ -203,18 +151,21 @@ export default function EditPropertyPage({ params }: { params: { id: string } })
           </div>
         </section>
 
-        {/* Pricing & Capacity */}
+        {/* Pricing */}
         <section className="bg-white rounded-xl p-6 border border-slate-100 shadow-sm space-y-4">
           <h2 className="font-semibold text-[#0B1F3A] border-b border-slate-100 pb-3">Pricing & Capacity</h2>
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="form-label">Price Per Night *</label>
-              <input type="number" min={0} {...register('pricePerNight', { required: true, valueAsNumber: true })} className="form-input" />
+              <input type="number" min={0}
+                {...register('pricePerNight', { required: 'Price is required', valueAsNumber: true })}
+                className="form-input" placeholder="2500" />
             </div>
             <div>
               <label className="form-label">Currency</label>
               <select {...register('currency')} className="form-input">
                 <option value="MAD">MAD (MAD )</option>
+                <option value="MAD">MAD (د.م.)</option>
                 <option value="USD">USD ($)</option>
                 <option value="GBP">GBP (£)</option>
                 <option value="EUR">EUR (€)</option>
@@ -241,17 +192,13 @@ export default function EditPropertyPage({ params }: { params: { id: string } })
         <section className="bg-white rounded-xl p-6 border border-slate-100 shadow-sm space-y-4">
           <h2 className="font-semibold text-[#0B1F3A] border-b border-slate-100 pb-3">Amenities</h2>
           <div className="flex flex-wrap gap-2">
-            {AMENITY_LIST.map((a) => {
+            {AMENITY_LIST.map(a => {
               const active = selectedAmenities.includes(a);
               return (
-                <button
-                  type="button"
-                  key={a}
-                  onClick={() => toggleAmenity(a)}
+                <button type="button" key={a} onClick={() => toggleAmenity(a)}
                   className={`px-4 py-2 rounded-full text-sm border transition-all ${
                     active ? 'bg-[#1E5FBE] text-white border-[#1E5FBE]' : 'border-slate-200 text-slate-600 hover:border-[#1E5FBE]'
-                  }`}
-                >
+                  }`}>
                   {a}
                 </button>
               );
@@ -259,30 +206,19 @@ export default function EditPropertyPage({ params }: { params: { id: string } })
           </div>
         </section>
 
-        {/* House Rules */}
+        {/* Rules */}
         <section className="bg-white rounded-xl p-6 border border-slate-100 shadow-sm space-y-3">
           <h2 className="font-semibold text-[#0B1F3A] border-b border-slate-100 pb-3">House Rules</h2>
           {ruleFields.map((field, i) => (
             <div key={field.id} className="flex gap-2">
-              <input
-                {...register(`rules.${i}.value`)}
-                className="form-input flex-1"
-                placeholder={`Rule ${i + 1}`}
-              />
-              <button
-                type="button"
-                onClick={() => removeRule(i)}
-                className="p-2.5 text-slate-400 hover:text-red-500 transition-colors"
-              >
+              <input {...register(`rules.${i}.value`)} className="form-input flex-1" placeholder={`Rule ${i + 1}`} />
+              <button type="button" onClick={() => removeRule(i)} className="p-2.5 text-slate-400 hover:text-red-500 transition-colors">
                 <Trash2 size={15} />
               </button>
             </div>
           ))}
-          <button
-            type="button"
-            onClick={() => addRule({ value: '' })}
-            className="flex items-center gap-1.5 text-sm text-[#1E5FBE] hover:underline"
-          >
+          <button type="button" onClick={() => addRule({ value: '' })}
+            className="flex items-center gap-1.5 text-sm text-[#1E5FBE] hover:underline">
             <Plus size={14} />Add Rule
           </button>
         </section>
@@ -291,37 +227,22 @@ export default function EditPropertyPage({ params }: { params: { id: string } })
         <section className="bg-white rounded-xl p-6 border border-slate-100 shadow-sm space-y-3">
           <h2 className="font-semibold text-[#0B1F3A] border-b border-slate-100 pb-3">
             Images
-            <span className="text-slate-400 font-normal text-sm ml-2">(paste any image URL)</span>
+            <span className="text-slate-400 font-normal text-sm ml-2">(first image = cover photo)</span>
           </h2>
           {imageFields.map((field, i) => (
-            <div key={field.id} className="grid grid-cols-3 gap-2">
-              <input
-                {...register(`images.${i}.url`)}
-                className="form-input col-span-2"
-                placeholder="https://res.cloudinary.com/…  or  https://images.unsplash.com/…"
-              />
-              <div className="flex gap-2">
-                <input
-                  {...register(`images.${i}.caption`)}
-                  className="form-input flex-1"
-                  placeholder="Caption"
-                />
-                <button
-                  type="button"
-                  onClick={() => removeImage(i)}
-                  className="p-2.5 text-slate-400 hover:text-red-500 transition-colors"
-                >
-                  <Trash2 size={15} />
-                </button>
-              </div>
+            <div key={field.id} className="flex gap-2 items-center">
+              {i === 0 && <span className="text-[10px] font-bold text-[#C9A84C] uppercase shrink-0">Cover</span>}
+              {i > 0  && <span className="text-[10px] text-slate-300 shrink-0 w-9 text-right">{i + 1}</span>}
+              <input {...register(`images.${i}.url`)} className="form-input flex-1 text-sm" placeholder="https://…image url…" />
+              <input {...register(`images.${i}.caption`)} className="form-input w-32 text-sm" placeholder="Caption" />
+              <button type="button" onClick={() => removeImage(i)} className="p-2.5 text-slate-400 hover:text-red-500 transition-colors">
+                <Trash2 size={15} />
+              </button>
             </div>
           ))}
-          <button
-            type="button"
-            onClick={() => addImage({ url: '', caption: '' })}
-            className="flex items-center gap-1.5 text-sm text-[#1E5FBE] hover:underline"
-          >
-            <Plus size={14} />Add Image URL
+          <button type="button" onClick={() => addImage({ url: '', caption: '' })}
+            className="flex items-center gap-1.5 text-sm text-[#1E5FBE] hover:underline">
+            <Plus size={14} />Add Image
           </button>
         </section>
 
@@ -345,16 +266,13 @@ export default function EditPropertyPage({ params }: { params: { id: string } })
         </section>
 
         {error && (
-          <p className="text-red-500 text-sm bg-red-50 p-4 rounded-xl">{error}</p>
+          <div className="bg-red-50 border border-red-200 text-red-600 text-sm p-4 rounded-xl">{error}</div>
         )}
 
         <div className="flex justify-end gap-3 pb-8">
           <Link href="/admin/properties" className="btn-secondary">Cancel</Link>
           <button type="submit" disabled={saving} className="btn-primary">
-            {saving
-              ? <><Loader2 size={16} className="animate-spin" />Saving…</>
-              : 'Save Changes'
-            }
+            {saving ? <><Loader2 size={16} className="animate-spin" />Creating…</> : 'Create Property'}
           </button>
         </div>
       </form>

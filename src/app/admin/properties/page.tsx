@@ -15,7 +15,7 @@ export default function AdminPropertiesPage() {
   const load = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await api.get('/properties', { params: { limit: 100 } });
+      const res = await api.get('/properties', { params: { limit: 100, admin: 'true' } });
       setProperties(res.data.data);
     } catch { setProperties([]); }
     finally  { setLoading(false); }
@@ -143,7 +143,7 @@ export default function AdminPropertiesPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="font-display text-2xl font-semibold text-[#0B1F3A]">Properties</h1>
-          <p className="text-slate-500 text-sm">{properties.length} shortlet properties</p>
+          <p className="text-slate-500 text-sm">{properties.length} keyneet properties</p>
         </div>
         <Link href="/admin/properties/new" className="btn-primary text-sm py-2.5 px-5">
           <Plus size={15} /> Add Property
