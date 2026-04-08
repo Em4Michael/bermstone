@@ -22,14 +22,14 @@ function SkeletonCard({ variant = 'property' }: { variant?: 'property' | 'invest
   );
 }
 
-export function FeaturedProperties() {
-  const [properties, setProperties] = useState<Property[]>([]);
+export function FeaturedKeyneets() {
+  const [properties, setKeyneets] = useState<Property[]>([]);
   const [loading,    setLoading]    = useState(true);
 
   useEffect(() => {
     propertiesApi.getAll({ featured: true, limit: 3 } as never)
-      .then(res => setProperties(res.data))
-      .catch(() => setProperties([]))
+      .then(res => setKeyneets(res.data))
+      .catch(() => setKeyneets([]))
       .finally(() => setLoading(false));
   }, []);
 
@@ -43,13 +43,13 @@ export function FeaturedProperties() {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 mb-14 reveal-scale">
           <div>
-            <span className="section-label">Keyneet Apartments</span>
+            <span className="section-label">Keyneet</span>
             <h2 className="section-title mt-1">Handpicked Stays</h2>
             <p className="section-subtitle mt-3">
               Curated luxury apartments for executives, families and travellers.
             </p>
           </div>
-          <Link href="/properties"
+          <Link href="/keyneet"
             className="group flex items-center gap-2 text-[#1E5FBE] font-medium text-sm border border-[#1E5FBE]/30 rounded-xl px-4 py-2.5 hover:bg-[#EBF2FF] transition-all duration-200 shrink-0 self-start md:self-auto">
             View All Keyneets
             <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />

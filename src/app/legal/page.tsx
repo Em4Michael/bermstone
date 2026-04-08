@@ -8,7 +8,7 @@ export default function LegalPage() {
         <div><h2 className="font-display text-xl font-semibold text-[#0B1F3A] mb-3">Company Information</h2><p><strong>Bermstone Real Estate Ltd</strong><br />Registered in the Federal Republic of Morocco<br />Registered Address: Marrakech, Marrakech-Safi, Morocco</p></div>
         <div><h2 className="font-display text-xl font-semibold text-[#0B1F3A] mb-3">Disclaimer</h2><p>The information on this website is for general informational purposes only. We make no warranties about completeness or accuracy of the content.</p></div>
         <div><h2 className="font-display text-xl font-semibold text-[#0B1F3A] mb-3">Investment Disclaimer</h2><p>Investment information does not constitute financial advice. Past performance is not indicative of future results.</p></div>
-        <div><h2 className="font-display text-xl font-semibold text-[#0B1F3A] mb-3">Contact</h2><p>Email: <a href="mailto:hello@bermstone.com" className="text-[#1E5FBE]">hello@bermstone.com</a></p></div>
+        <div><h2 className="font-display text-xl font-semibold text-[#0B1F3A] mb-3">Contact</h2><p>Email: <a href="mailto:Realdelly@yahoo.com" className="text-[#1E5FBE]">Realdelly@yahoo.com</a></p></div>
       </div>
     </div>
   );

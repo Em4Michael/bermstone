@@ -21,7 +21,7 @@ export default function CustomerCarePage() {
           <h1 className="font-display text-4xl md:text-5xl font-semibold text-white mb-4">Your Personal Concierge</h1>
           <p className="text-white/75 leading-relaxed max-w-xl mx-auto">From arrival to departure, we ensure every detail is perfect.</p>
           <div className="flex flex-wrap justify-center gap-3 mt-8">
-            <a href="tel:+2348000000000" className="btn-primary">📞 Call Concierge</a>
+            <a href="tel:+212600359326" className="btn-primary">📞 Call Concierge</a>
             <Link href="/contact" className="btn-secondary border-white text-white hover:bg-white hover:text-[#1E5FBE]">💬 Message Us</Link>
           </div>
         </div>
@@ -49,8 +49,8 @@ export default function CustomerCarePage() {
           <h3 className="font-display text-2xl font-semibold text-[#0B1F3A] mb-3">Available 24 / 7</h3>
           <p className="text-slate-600 text-sm mb-6">Reachable around the clock via phone, WhatsApp, and messaging.</p>
           <div className="flex flex-wrap justify-center gap-3">
-            <a href="tel:+2348000000000" className="btn-primary text-sm">Call Now</a>
-            <a href="https://wa.me/2348000000000" target="_blank" rel="noopener noreferrer" className="btn-secondary text-sm">WhatsApp</a>
+            <a href="tel:+212600359326" className="btn-primary text-sm">Call Now</a>
+            <a href="https://wa.me/212600359326" target="_blank" rel="noopener noreferrer" className="btn-secondary text-sm">WhatsApp</a>
           </div>
         </div>
       </div>

@@ -8,16 +8,16 @@ import type { Property } from '@/types';
 import { formatCurrency, cn } from '@/lib/utils';
 import AdminTable from '@/components/admin/AdminTable';
 
-export default function AdminPropertiesPage() {
-  const [properties, setProperties] = useState<Property[]>([]);
+export default function AdminkeyneetPage() {
+  const [keyneet, setkeyneet] = useState<Property[]>([]);
   const [loading,    setLoading]    = useState(true);
 
   const load = useCallback(async () => {
     setLoading(true);
     try {
       const res = await api.get('/properties', { params: { limit: 100, admin: 'true' } });
-      setProperties(res.data.data);
-    } catch { setProperties([]); }
+      setkeyneet(res.data.data);
+    } catch { setkeyneet([]); }
     finally  { setLoading(false); }
   }, []);
 
@@ -112,7 +112,7 @@ export default function AdminPropertiesPage() {
       render: (row: Property) => (
         <div className="flex items-center gap-1">
           <Link
-            href={`/properties/${row._id}`}
+            href={`/keyneet/${row._id}`}
             target="_blank"
             className="p-1.5 text-slate-400 hover:text-[#1E5FBE] transition-colors"
             title="View on site"
@@ -142,8 +142,8 @@ export default function AdminPropertiesPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-display text-2xl font-semibold text-[#0B1F3A]">Properties</h1>
-          <p className="text-slate-500 text-sm">{properties.length} keyneet properties</p>
+          <h1 className="font-display text-2xl font-semibold text-[#0B1F3A]">keyneet</h1>
+          <p className="text-slate-500 text-sm">{keyneet.length} keyneet keyneet</p>
         </div>
         <Link href="/admin/properties/new" className="btn-primary text-sm py-2.5 px-5">
           <Plus size={15} /> Add Property
@@ -152,9 +152,9 @@ export default function AdminPropertiesPage() {
 
       <AdminTable
         columns={columns as never[]}
-        data={properties as never[]}
+        data={keyneet as never[]}
         loading={loading}
-        emptyMessage="No properties yet. Add your first one."
+        emptyMessage="No keyneet yet. Add your first one."
       />
     </div>
   );

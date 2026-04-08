@@ -5,12 +5,13 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function formatCurrency(amount: number, currency = 'MAD'): string {
+export function formatCurrency(amount: number | undefined | null, currency = 'MAD'): string {
   const sym: Record<string, string> = { MAD: 'MAD ', USD: '$', EUR: '€', GBP: '£' };
   const s = sym[currency] ?? `${currency} `;
-  if (amount >= 1_000_000) return `${s}${(amount / 1_000_000).toFixed(2)}M`;
-  if (amount >= 1_000)     return `${s}${(amount / 1_000).toFixed(0)}K`;
-  return `${s}${amount.toLocaleString()}`;
+  const n = Number(amount) || 0;
+  if (n >= 1_000_000) return `${s}${(n / 1_000_000).toFixed(2)}M`;
+  if (n >= 1_000)     return `${s}${(n / 1_000).toFixed(0)}K`;
+  return `${s}${n.toLocaleString()}`;
 }
 
 export function formatDate(date: string | Date): string {

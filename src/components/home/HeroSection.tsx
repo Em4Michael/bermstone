@@ -31,7 +31,7 @@ export default function HeroSection() {
   const [wordIdx, setWordIdx] = useState(0);
   const [displayed, setDisplayed] = useState('');
   const [typing,    setTyping]    = useState(true);
-  const heroRef = useRef<HTMLEssaouirant>(null);
+  const heroRef = useRef<HTMLElement>(null);
 
   // Typewriter
   useEffect(() => {
@@ -60,7 +60,7 @@ export default function HeroSection() {
     if (!el) return;
     const onScroll = () => {
       const scrolled = window.scrollY;
-      const orbs = el.querySelectorAll<HTMLEssaouirant>('.parallax-orb');
+      const orbs = el.querySelectorAll<HTMLElement>('.parallax-orb');
       orbs.forEach((orb, i) => {
         const speed = 0.15 + i * 0.08;
         orb.style.transform = `translateY(${scrolled * speed}px)`;
@@ -76,7 +76,7 @@ export default function HeroSection() {
       const p = new URLSearchParams();
       if (city)   p.set('city', city);
       if (guests) p.set('maxGuests', guests);
-      router.push(`/properties?${p.toString()}`);
+      router.push(`/keyneet?${p.toString()}`);
     } else {
       router.push('/investments');
     }

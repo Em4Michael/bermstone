@@ -145,7 +145,7 @@ export default function AllInvestmentPaymentsPage() {
                       <div className="text-xs text-slate-400">{p.investor.email}</div>
                     </td>
                     <td className="px-4 py-3.5">
-                      <Link href={`/admin/investments/${p.investment?._id}/payments`}
+                      <Link href={`/investments/${p.investment?._id}/payments`}
                         className="text-[#1E5FBE] hover:underline text-sm font-medium">
                         {p.investment?.name || '—'}
                       </Link>

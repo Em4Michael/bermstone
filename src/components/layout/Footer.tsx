@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Phone, Mail, MapPin, Instagram, Twitter, Linkedin, Facebook, ArrowRight } from 'lucide-react';
 
 const NAV_LINKS = [
-  { href: '/properties',    label: 'Keyneet Apartments' },
+  { href: '/keyneet',    label: 'Keyneet Apartments' },
   { href: '/investments',   label: 'Investment Projects' },
   { href: '/about',         label: 'About Bermstone' },
   { href: '/owner-support', label: 'List Your Property' },
@@ -38,7 +38,7 @@ export default function Footer() {
             <p className="text-blue-200 text-sm">Let&apos;s help you find the perfect opportunity.</p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 shrink-0">
-            <Link href="/properties"
+            <Link href="/keyneet"
               className="group flex items-center gap-2 bg-[#C9A84C] hover:bg-[#b8963e] text-white font-medium px-5 py-3 rounded-xl transition-all text-sm whitespace-nowrap">
               Browse Keyneets
               <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
@@ -122,21 +122,21 @@ export default function Footer() {
                 <span className="text-blue-200/70 text-sm leading-relaxed">Marrakech, Marrakech-Safi, Morocco</span>
               </li>
               <li>
-                <a href="tel:+212600000000"
+                <a href="tel:+212600359326"
                   className="flex items-center gap-3 group">
                   <div className="w-8 h-8 rounded-lg bg-white/8 flex items-center justify-center shrink-0 group-hover:bg-[#1E5FBE] transition-colors">
                     <Phone size={14} className="text-[#3B9EE0]" />
                   </div>
-                  <span className="text-blue-200/70 group-hover:text-white text-sm transition-colors">+212 600 000 000</span>
+                  <span className="text-blue-200/70 group-hover:text-white text-sm transition-colors">+212 600 359 326</span>
                 </a>
               </li>
               <li>
-                <a href="mailto:hello@bermstone.com"
+                <a href="mailto:Realdelly@yahoo.com"
                   className="flex items-center gap-3 group">
                   <div className="w-8 h-8 rounded-lg bg-white/8 flex items-center justify-center shrink-0 group-hover:bg-[#1E5FBE] transition-colors">
                     <Mail size={14} className="text-[#3B9EE0]" />
                   </div>
-                  <span className="text-blue-200/70 group-hover:text-white text-sm transition-colors">hello@bermstone.com</span>
+                  <span className="text-blue-200/70 group-hover:text-white text-sm transition-colors">Realdelly@yahoo.com</span>
                 </a>
               </li>
             </ul>

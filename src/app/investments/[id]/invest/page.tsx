@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { ArrowLeft, Loader2, CheckCircle, TrendingUp, Shield, FileText } from 'lucide-react';
@@ -23,6 +23,8 @@ interface FormData {
 
 export default function InvestPage({ params }: { params: { id: string } }) {
   const { user, loading: authLoading } = useAuth();
+  const pathname = usePathname();
+  const currentUrl = typeof window !== 'undefined' ? window.location.pathname : pathname;
   const router   = useRouter();
 
   const [investment, setInvestment] = useState<Investment | null>(null);
@@ -74,22 +76,12 @@ export default function InvestPage({ params }: { params: { id: string } }) {
     }
   };
 
-  // Auth guard — wait for AuthContext to finish loading before deciding to redirect
-  useEffect(() => {
-    if (!authLoading && !user) {
-      router.replace(`/login?redirect=/investments/${params.id}/invest`);
-    }
-  }, [user, authLoading, router, params.id]);
-
-  // Show spinner while auth OR investment is loading
-  if (authLoading || loading) return (
+  // Show spinner while investment is loading (login is optional — not required)
+  if (loading) return (
     <div className="min-h-screen pt-20 flex items-center justify-center">
       <div className="w-8 h-8 border-4 border-[#1E5FBE] border-t-transparent rounded-full animate-spin" />
     </div>
   );
-  
-  // After auth finishes, if still no user — blank while redirect fires
-  if (!user) return null;
 
   if (done) return (
     <div className="min-h-screen pt-20 flex items-center justify-center px-4">
@@ -226,6 +218,34 @@ export default function InvestPage({ params }: { params: { id: string } }) {
           {/* ── Right: Form ───────────────────────────────── */}
           <div className="lg:col-span-3">
             <div className="card p-6 sm:p-8">
+              {/* Login / Register notice for guests */}
+              {!authLoading && !user && (
+                <div className="mb-6 rounded-2xl overflow-hidden border border-blue-100">
+                  <div className="bg-[#1E5FBE] px-5 py-3">
+                    <p className="text-white font-semibold text-sm">Sign in to invest faster</p>
+                    <p className="text-white/70 text-xs mt-0.5">Your details will be pre-filled and you can track your investment progress.</p>
+                  </div>
+                  <div className="bg-[#EBF2FF] px-5 py-4 flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
+                    <p className="text-slate-500 text-xs">After signing in you will be brought back here automatically.</p>
+                    <div className="flex gap-2 shrink-0">
+                      <Link
+                        href={`/login?redirect=${encodeURIComponent(pathname)}`}
+                        className="flex items-center gap-1.5 px-4 py-2 bg-[#1E5FBE] text-white text-sm font-semibold rounded-xl hover:bg-[#1a52a8] transition-colors whitespace-nowrap shadow-sm">
+                        Log In
+                      </Link>
+                      <Link
+                        href={`/register?redirect=${encodeURIComponent(pathname)}`}
+                        className="flex items-center gap-1.5 px-4 py-2 border border-[#1E5FBE] text-[#1E5FBE] text-sm font-semibold rounded-xl hover:bg-[#D1E4FF] transition-colors whitespace-nowrap">
+                        Create Account
+                      </Link>
+                    </div>
+                  </div>
+                  <div className="bg-white px-5 py-2 border-t border-blue-100">
+                    <p className="text-slate-400 text-xs">Or fill in the form below as a guest — no account required.</p>
+                  </div>
+                </div>
+              )}
+
               <h2 className="font-display text-2xl font-semibold text-[#0B1F3A] mb-1">Express Your Interest</h2>
               <p className="text-slate-500 text-sm mb-6">
                 Complete the form below and our investment team will contact you within 24 hours.
@@ -255,7 +275,7 @@ export default function InvestPage({ params }: { params: { id: string } }) {
 
                 <div>
                   <label className="form-label">Phone Number *</label>
-                  <input type="tel" {...register('phone', { required: 'Required' })} className="form-input" placeholder="+234 800 000 0000" />
+                  <input type="tel" {...register('phone', { required: 'Required' })} className="form-input" placeholder="+212 600 000 000" />
                   {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone.message}</p>}
                 </div>
 
@@ -270,7 +290,7 @@ export default function InvestPage({ params }: { params: { id: string } }) {
 
                   <div>
                     <label className="form-label">
-                      Intended Investment Amount (₦) *
+                      Intended Investment Amount (MAD ) *
                       <span className="text-slate-400 font-normal ml-1">
                         — min {formatCurrency(investment.minimumInvestment, investment.currency)}
                       </span>

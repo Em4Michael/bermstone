@@ -1,16 +1,26 @@
-import type { Metadata } from 'next';
-import HeroSection from '@/components/home/HeroSection';
-import { StatsSection, WhySection, TestimonialsSection, OwnerCTA } from '@/components/home/HomeSections';
-import { FeaturedProperties, FeaturedInvestments } from '@/components/home/FeaturedSections';
+import type { Metadata } from "next";
+import HeroSection from "@/components/home/HeroSection";
+import {
+  StatsSection,
+  WhySection,
+  TestimonialsSection,
+  OwnerCTA,
+} from "@/components/home/HomeSections";
+import {
+  FeaturedKeyneets,
+  FeaturedInvestments,
+} from "@/components/home/FeaturedSections";
 
-export const metadata: Metadata = { title: 'Bermstone — Premium Real Estate & Keyneets' };
+export const metadata: Metadata = {
+  title: "Bermstone — Premium Real Estate & Keyneets",
+};
 
 export default function HomePage() {
   return (
     <>
       <HeroSection />
       <StatsSection />
-      <FeaturedProperties />
+      <FeaturedKeyneets />
       <WhySection />
       <FeaturedInvestments />
       <TestimonialsSection />
