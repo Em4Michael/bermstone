@@ -9,7 +9,7 @@ import {
   ChevronDown,
   MapPin,
 } from "lucide-react";
-import { keyneetApi } from "@/lib/api";
+import { propertiesApi } from "@/lib/api";
 import type { Property } from "@/types";
 import PropertyCard from "@/components/properties/PropertyCard";
 import { cn } from "@/lib/utils";
@@ -81,7 +81,7 @@ export default function KeyneetClient() {
       if (filters.amenities) params.amenities = filters.amenities;
       if (filters.sortBy) params.sortBy = filters.sortBy;
 
-      const res = await keyneetApi.getAll(params as never);
+      const res = await propertiesApi.getAll(params as never);
       setkeyneet(res.data || []);
       setTotal(res.pagination?.total || 0);
       setPages(res.pagination?.pages || 1);
